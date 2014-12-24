@@ -110,7 +110,7 @@ var StartLayer = cc.Layer.extend({
             res.s_guideButton,
             res.s_guideButton,
             function () {
-                var scene = new GuideScene();
+                var scene = new GuideScene(this._scale);
                 cc.director.runScene(scene);
             },this);
         guideButtonImage.setAnchorPoint(0, 0);
@@ -147,6 +147,8 @@ var StartScene = cc.Scene.extend({
 
     onEnter:function () {
         this._super();
+        //var loadingLayer = new loadindLayer();
+        ///this.addChild(loadingLayer);
         var layer = new StartLayer(this._scale);
         this.addChild(layer);
         layer.init();

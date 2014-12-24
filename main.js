@@ -10,12 +10,12 @@ cc.game.onStart = function(){
             scale = screenSize.height / 720;
             designSize = cc.size(screenSize.height * 16 / 9, screenSize.height);
             cc.loader.resPath = "res/Normal";
-            alert(screenSize.height * 16 /9 + " " + screenSize.height);
+            //alert(screenSize.height * 16 /9 + " " + screenSize.height);
         } else {
             scale = screenSize.width / 1280;
             designSize = cc.size(screenSize.width, screenSize.width * 9 / 16);
             cc.loader.resPath = "res/Normal";
-            alert(screenSize.width + " " + screenSize.width * 9 / 16);
+            //alert(screenSize.width + " " + screenSize.width * 9 / 16);
         }
     }else{
         arg = screenSize.width / screenSize.height;
@@ -25,7 +25,7 @@ cc.game.onStart = function(){
 
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new StartScene(scale));
+    cc.director.runScene(new StartScene(scale));
     }, this);
 };
 cc.game.run();

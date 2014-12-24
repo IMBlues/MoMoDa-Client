@@ -18,6 +18,7 @@
         "src/CharacterAvatar.js",
         "src/ArrowSprite.js",
         "src/ShieldSprite.js",
-        "src/Guide.js"
+        "src/Guide.js",
+        "src/Loading.js"
     ]
 }
