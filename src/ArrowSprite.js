@@ -4,12 +4,20 @@
 var ArrowSprite = cc.Sprite.extend({
     flyAction: null,
     brokeAction: null,
+    prepareAction: null,
     meOrYou: 0,
 
     setMeOrYou: function (arg) {
         if (typeof (arg) == "number") {
             this.meOrYou = arg;
         }
+    },
+
+    preparing: function () {
+        this.prepareAction = this.createPreparingAction();
+        this.prepareAction.retain();
+        this.runAction(this.prepareAction);
+        this.prepareActionRelease();
     },
 
     flying: function () {
@@ -28,6 +36,10 @@ var ArrowSprite = cc.Sprite.extend({
         this.brokeActionRelease();
     },
 
+    prepareActionRelease: function () {
+        this.prepareAction.release();
+    },
+
     flyActionRelease: function () {
         this.flyAction.release();
     },
@@ -36,8 +48,13 @@ var ArrowSprite = cc.Sprite.extend({
         this.brokeAction.release();
     },
 
+    createPreparingAction: function () {
+        //alert(this.x + " " + this.y);
+        return cc.MoveTo.create(0.8, cc.p(this.x * 1.06, this.y));
+    },
+
     createFlyingingAction: function () {
-        return cc.MoveTo.create(4, cc.p(this.y,-30));
+        return cc.MoveTo.create(0.2, cc.p(this.x * 0.8, this.y));
     },
 
     createBrokingAction: function () {

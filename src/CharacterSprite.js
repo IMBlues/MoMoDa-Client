@@ -2,6 +2,7 @@ var CharacterSprite = cc.Sprite.extend({
     lightAction:null,
     deadAction:null,
     attackAction:null,
+    attackToAction:null,
     meOrYou: 0,
 
     setMeOrYou:function (arg) {
@@ -37,6 +38,15 @@ var CharacterSprite = cc.Sprite.extend({
         this.deadActionRelease();
     },
 
+    attackingTo:function () {
+        this.attackToAction = this.createAttackingToAction();
+        this.attackToAction.retain();
+        var ac = this.attackToAction;
+        var seqAc = cc.Sequence.create(ac, cc.CallFunc.create());
+        this.runAction(seqAc);
+        this.attackActionToRelease();
+    },
+
     attackActionRelease:function () {
         this.attackAction.release();
     },
@@ -47,6 +57,10 @@ var CharacterSprite = cc.Sprite.extend({
 
     deadActionRelease:function () {
         this.deadAction.release();
+    },
+
+    attackActionToRelease:function () {
+        this.attackToAction.release();
     },
 
     createLightingAction : function() {
@@ -89,7 +103,7 @@ var CharacterSprite = cc.Sprite.extend({
             frames.push(frame5);
         }
 
-        var animation = new cc.Animation(frames, 0.05);
+        var animation = new cc.Animation(frames, 0.08);
         return new cc.Animate(animation);
     },
 
@@ -133,11 +147,11 @@ var CharacterSprite = cc.Sprite.extend({
             frame3 = cc.spriteFrameCache.getSpriteFrame("ImgActorMeBeat.png");
             frames.push(frame3);
 
-            frame4 = cc.spriteFrameCache.getSpriteFrame("ImgActorMeBeatHalf.png");
-            frames.push(frame4);
+            /*            frame4 = cc.spriteFrameCache.getSpriteFrame("ImgActorMeBeatHalf.png");
+             frames.push(frame4);
 
-            frame5 = cc.spriteFrameCache.getSpriteFrame("ImgActorMe.png");
-            frames.push(frame5);
+             frame5 = cc.spriteFrameCache.getSpriteFrame("ImgActorMe.png");
+             frames.push(frame5);*/
         } else {
             frame1 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeatNormal.png");
             frames.push(frame1);
@@ -148,14 +162,44 @@ var CharacterSprite = cc.Sprite.extend({
             frame3 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeat.png");
             frames.push(frame3);
 
-            frame4 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeatHalf.png");
-            frames.push(frame4);
+            /*            frame4 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeatHalf.png");
+             frames.push(frame4);
 
-            frame5 = cc.spriteFrameCache.getSpriteFrame("ImgActorOpp.png");
-            frames.push(frame5);
+             frame5 = cc.spriteFrameCache.getSpriteFrame("ImgActorOpp.png");
+             frames.push(frame5);*/
         }
 
         var animation = new cc.Animation(frames, 0.3);
+        return new cc.Animate(animation);
+    },
+
+    createAttackingToAction : function() {
+        var frames = [];
+        var frame1;
+        var frame2;
+
+        if(this.meOrYou == 0) {
+            frame1 = cc.spriteFrameCache.getSpriteFrame("ImgActorMeBeat.png");
+            frames.push(frame1);
+
+            frame2 = cc.spriteFrameCache.getSpriteFrame("ImgActorMeBeatHalf.png");
+            frames.push(frame2);
+
+            frame3 = cc.spriteFrameCache.getSpriteFrame("ImgActorMe.png");
+            frames.push(frame3);
+        } else {
+            frame1 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeatNormal.png");
+            frames.push(frame1);
+
+            frame2 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeatHalf.png");
+            frames.push(frame2);
+
+            frame3 = cc.spriteFrameCache.getSpriteFrame("ImgActorOppBeat.png");
+            frames.push(frame3);
+
+        }
+
+        var animation = new cc.Animation(frames, 0.15);
         return new cc.Animate(animation);
     }
 

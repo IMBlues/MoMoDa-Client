@@ -85,13 +85,13 @@ var StartLayer = cc.Layer.extend({
                                     var scene = new PlayScene(gameNet, userName, messageWarpper.messageContent, _this._scale);
                                     cc.director.runScene(scene);
                                 } else {
-                                    alert("Start error");
+                                    //alert("Start error");
                                 }
-                            }, 5000);
+                            }, 100);
                         } else {
-                            alert("Login error");
+                            //alert("Login error");
                         }
-                    }, 5000);
+                    }, 100);
                     var scene = new PlayScene(gameNet, userName, messageWarpper.messageContent, _this._scale);
                     cc.director.runScene(scene);
                 }

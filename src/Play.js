@@ -5,7 +5,6 @@ PlayLayer = cc.Layer.extend({
     _gameNet:null,
     _userName:null,
     _oppName:null,
-    _energy:null,
     _scale:null,
 
     meAvatarImg:null,
@@ -22,7 +21,7 @@ PlayLayer = cc.Layer.extend({
 
     characterMe:null,
     characterOpp:null,
-    energyMe:0,
+    energyMe:8,
     energyOpp:0,
     oppEnergyNumber:null,
     meEnergyNumber:null,
@@ -191,8 +190,9 @@ PlayLayer = cc.Layer.extend({
                         this._gameNet.sendMessage(GameMessage["Operation"] + "0");
                         this.characterMe.attacking();
                         this.arrow = new ArrowSprite(res.s_1ArrowMe);
-                        this.arrow.setPosition(size.width * 0.6, size.height / 2);
+                        this.arrow.setPosition(size.width * 0.65, size.height * 0.39);
                         this.addChild(this.arrow, 2);
+                        this.arrow.preparing();
                     }
                 }
             },this);
@@ -218,8 +218,10 @@ PlayLayer = cc.Layer.extend({
                         this.lock = 1;
                         this._gameNet.sendMessage(GameMessage["Operation"] + "1");
                         this.characterMe.attacking();
-                        this.arrow.setPosition(size.width * 0.7, size.height * 0.4);
+                        this.arrow = new ArrowSprite(res.s_2ArrowMe);
+                        this.arrow.setPosition(size.width * 0.65, size.height * 0.39);
                         this.addChild(this.arrow, 2);
+                        this.arrow.preparing();
                     }
                 }
             },this);
@@ -246,8 +248,9 @@ PlayLayer = cc.Layer.extend({
                         this._gameNet.sendMessage(GameMessage["Operation"] + "2");
                         this.characterMe.attacking();
                         this.arrow = new ArrowSprite(res.s_3ArrowMe);
-                        this.arrow.setPosition(size.width / 2 + 100, size.height / 2);
+                        this.arrow.setPosition(size.width * 0.65, size.height * 0.39);
                         this.addChild(this.arrow, 2);
+                        this.arrow.preparing();
                     }
                 }
             },this);
@@ -273,8 +276,10 @@ PlayLayer = cc.Layer.extend({
                         this.lock = 1;
                         this._gameNet.sendMessage(GameMessage["Operation"] + "3");
                         this.characterMe.attacking();
-                        this.arrow.setPosition(size.width / 2 + 100, size.height / 2);
+                        this.arrow = new ArrowSprite(res.s_4ArrowMe);
+                        this.arrow.setPosition(size.width * 0.65, size.height * 0.39);
                         this.addChild(this.arrow, 2);
+                        this.arrow.preparing();
                     }
                 }
             },this);
@@ -492,21 +497,25 @@ PlayLayer = cc.Layer.extend({
             initThis.ChaseButton.setEnabled(false);
             initThis.BlockButton.setEnabled(false);
             initThis.ShieldButton.setEnabled(false);
-            initThis.unschedule(this.update);
+
 
             this.timeout = 3;
             this.timeoutLaybel.setString("SHOW");
 
             if (initThis.lock == 0) {
-                if(this._energy < 10) {
-                    this.energyMe += 1;
-                    this.meEnergyNumber.setString("x" + this.energyMe);
+                //alert(initThis.energyMe);
+                if(initThis.energyMe < 10) {
+                    initThis.energyMe += 1;
+                    initThis.meEnergyNumber.setString("x" + this.energyMe);
+                    initThis.characterMe.lighting();
+                    initThis._gameNet.sendMessage(GameMessage["Operation"] + "8");
                 }
-                initThis._gameNet.sendMessage(GameMessage["Operation"] + "8");
-                initThis.characterMe.lighting();
             } else {
                 initThis.lock = 0;
             }
+
+            //initThis.arrow.flying();
+            //initThis.characterMe.attackingTo();
 
 
             var serverResult;
@@ -567,6 +576,8 @@ PlayLayer = cc.Layer.extend({
             } else {
 
             }
+
+            initThis.unschedule(this.update);
 
         } else if (this.timeout == 1){
             initThis.atButton1.setEnabled(true);
